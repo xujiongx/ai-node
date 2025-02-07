@@ -1,0 +1,22 @@
+[
+  {
+    "role": "user",
+    "content": "你好"
+  },
+  {
+    "content": "你好！有什么我可以帮你的吗？",
+    "toolCalls": null,
+    "prefix": false,
+    "role": "assistant"
+  },
+  {
+    "role": "user",
+    "content": "讲一个笑话"
+  },
+  {
+    "content": "好的，这里有一个笑话，希望能让你开心：\n\n有一天，小明在学校里问老师：“老师，为什么书包总是这么重？”\n\n老师回答说：“因为里面装了很多知识啊！”\n\n小明想了想，又说：“那为什么我的书包里装的知识还不如我的书包轻？！”\n\n老师笑着回答：“因为你的书包里装的都是‘书’啊！”",
+    "toolCalls": null,
+    "prefix": false,
+    "role": "assistant"
+  }
+]
