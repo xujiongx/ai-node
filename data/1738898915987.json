@@ -18,5 +18,15 @@
     "toolCalls": null,
     "prefix": false,
     "role": "assistant"
+  },
+  {
+    "role": "user",
+    "content": "换一个"
+  },
+  {
+    "content": "好的，这里有一个经典的笑话：\n\n有一天，小明和小红在海边玩耍。小红突然跳进海里，转眼间就被海浪卷走了。小明看见了，急忙跳进海里去救小红。等他把小红救上岸后，小红惊魂未定地问：“小明，你怎么知道我会游泳？”\n\n小明回答：“因为你看到我跳进海里去救你时，你就笑了！”\n\n希望这个笑话能逗你笑！",
+    "toolCalls": null,
+    "prefix": false,
+    "role": "assistant"
   }
 ]

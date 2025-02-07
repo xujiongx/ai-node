@@ -54,7 +54,7 @@ const getConversationHistory = async (req, res) => {
   try {
     const { sessionId } = req.params;
     const history = await fileStorage.getConversation(sessionId);
-    res.json(history);
+    res.json({ code: 0, data: history });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -80,8 +80,26 @@ const getMistralMessage = async (req, res) => {
   }
 };
 
+const getLatestConversation = async (req, res) => {
+  try {
+    const conversations = await fileStorage.getConversationList();
+    if (conversations && conversations.length > 0) {
+      // 按时间戳排序（从大到小）
+      const sortedConversations = conversations.sort((a, b) => {
+        return parseInt(b.id) - parseInt(a.id);
+      });
+      res.json({ code: 0, data: sortedConversations[0].id });
+    } else {
+      res.json({ code: 0, data: null });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getMistralMessage,
   getConversationList,
   getConversationHistory,
+  getLatestConversation,  // 记得导出新方法
 };

@@ -34,13 +34,33 @@ class FileStorageService {
   async getConversationList() {
     try {
       const files = await fs.readdir(STORAGE_DIR);
-      return files
-        .filter((file) => file.endsWith('.json'))
-        .map((file) => file.replace('.json', ''))
-        .map((name) => ({
-          id: name,
-          title: name,
-        }));
+      const conversations = await Promise.all(
+        files
+          .filter((file) => file.endsWith('.json'))
+          .map(async (file) => {
+            const sessionId = file.replace('.json', '');
+            try {
+              const data = await fs.readFile(
+                path.join(STORAGE_DIR, file),
+                'utf8'
+              );
+              const messages = JSON.parse(data);
+              const firstMessage = messages.find((msg) => msg.role === 'user');
+              return {
+                id: sessionId,
+                title: firstMessage ? firstMessage.content : '新对话',
+              };
+            } catch (error) {
+              return {
+                id: sessionId,
+                title: '无法读取对话',
+              };
+            }
+          })
+      );
+      
+      // 按 ID（时间戳）降序排序
+      return conversations.sort((a, b) => parseInt(b.id) - parseInt(a.id));
     } catch (error) {
       return [];
     }

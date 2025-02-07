@@ -7,9 +7,9 @@ router.get('/', mistralController.getMistralMessage);
 
 // 新增的历史记录接口
 router.get('/conversations', mistralController.getConversationList);
-router.get(
-  '/conversations/:sessionId',
-  mistralController.getConversationHistory
-);
+router.get('/conversations/:sessionId', mistralController.getConversationHistory);
+
+// 获取最近对话ID的接口
+router.get('/latest', mistralController.getLatestConversation);
 
 module.exports = router;

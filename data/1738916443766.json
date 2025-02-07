@@ -1,0 +1,22 @@
+[
+  {
+    "role": "user",
+    "content": "今天星期几"
+  },
+  {
+    "content": "对不起，我无法实时访问互联网或获取当前日期。不过，你可以通过查看你的设备上的日期和时间来确定今天是星期几。如果你告诉我今天的日期，我也可以帮你计算出今天是星期几。",
+    "toolCalls": null,
+    "prefix": false,
+    "role": "assistant"
+  },
+  {
+    "role": "user",
+    "content": "今天是2025年2月7日，是周几"
+  },
+  {
+    "content": "2025年2月7日是星期五。",
+    "toolCalls": null,
+    "prefix": false,
+    "role": "assistant"
+  }
+]
