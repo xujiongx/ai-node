@@ -12,4 +12,7 @@ router.get('/conversations/:sessionId', mistralController.getConversationHistory
 // 获取最近对话ID的接口
 router.get('/latest', mistralController.getLatestConversation);
 
+// 添加对联生成接口
+router.get('/couplet/generate', mistralController.generateCouplet);
+
 module.exports = router;

@@ -80,6 +80,58 @@ const getMistralMessage = async (req, res) => {
   }
 };
 
+const generateCouplet = async (req, res) => {
+  try {
+    const { content } = req.query;
+    if (!content) {
+      return res.status(400).json({
+        error: '请提供对联主题或关键词',
+      });
+    }
+
+    const prompt = `你是一个专业的对联大师。请根据主题"${content}"创作一副优美的对联。要求：
+1. 上下联字数相同，平仄工整
+2. 上下联要意境优美，意象丰富
+3. 横批要与对联主题呼应，简洁有力
+4. 整体要富有文学气息和传统韵味
+5. 严格按照以下JSON格式返回：{"up":"上联内容","down":"下联内容","horizontal":"横批内容"}
+请直接返回JSON数据，不要有任何其他内容。`;
+
+    const response = await client.chat.complete({
+      model: 'mistral-small-latest',
+      stream: false,
+      messages: [
+        {
+          role: 'system',
+          content: '你是一位精通对联创作的文学大师，擅长创作优美、工整、意境深远的对联。'
+        },
+        { role: 'user', content: prompt }
+      ],
+    });
+
+    try {
+      // 清理返回的内容，移除可能的 markdown 标记
+      const cleanContent = response.choices[0].message.content
+        .replace(/```json\s*/g, '')
+        .replace(/```\s*$/g, '')
+        .trim();
+
+      const result = JSON.parse(cleanContent);
+      res.json({ code: 0, data: result });
+    } catch (error) {
+      res.status(500).json({
+        error: '生成对联格式错误',
+        details: error.message,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: '服务器内部错误',
+      details: error.message,
+    });
+  }
+};
+
 const getLatestConversation = async (req, res) => {
   try {
     const conversations = await fileStorage.getConversationList();
@@ -101,5 +153,6 @@ module.exports = {
   getMistralMessage,
   getConversationList,
   getConversationHistory,
-  getLatestConversation,  // 记得导出新方法
+  getLatestConversation,
+  generateCouplet, // 添加新方法到导出
 };
