@@ -149,10 +149,51 @@ const getLatestConversation = async (req, res) => {
   }
 };
 
+const translate = async (req, res) => {
+  try {
+    const { content, from = 'auto', to = 'zh' } = req.query;
+    
+    if (!content) {
+      return res.status(400).json({
+        error: '请提供需要翻译的内容',
+      });
+    }
+
+    const prompt = `请将以下文本从${from}翻译成${to}，直接返回翻译结果，不要有任何解释或额外内容：\n\n${content}`;
+
+    const response = await client.chat.complete({
+      model: 'mistral-small-latest',
+      stream: false,
+      messages: [
+        {
+          role: 'system',
+          content: '你是一个专业的翻译器，只返回翻译结果，不做任何解释。'
+        },
+        { role: 'user', content: prompt }
+      ],
+    });
+console.log('🤪', response.choices[0].message.content);
+    res.json({ 
+      code: 0, 
+      data: {
+        result: response.choices[0].message.content.trim(),
+        from,
+        to
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: '翻译失败',
+      details: error.message,
+    });
+  }
+};
+
 module.exports = {
   getMistralMessage,
   getConversationList,
   getConversationHistory,
   getLatestConversation,
-  generateCouplet, // 添加新方法到导出
+  generateCouplet,
+  translate,  // 添加新方法到导出
 };

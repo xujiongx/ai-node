@@ -15,4 +15,7 @@ router.get('/latest', mistralController.getLatestConversation);
 // 添加对联生成接口
 router.get('/couplet/generate', mistralController.generateCouplet);
 
+// 添加翻译接口
+router.get('/translate', mistralController.translate);
+
 module.exports = router;
